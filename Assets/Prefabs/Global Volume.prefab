@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &893338326934653579
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1587630243070594312}
+  - component: {fileID: 4798472581138102632}
+  - component: {fileID: 5352306024452860469}
+  - component: {fileID: 5337013229148531218}
+  m_Layer: 0
+  m_Name: Global Volume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1587630243070594312
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893338326934653579}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.968987, y: 2.9318085, z: 162.90692}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4798472581138102632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893338326934653579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.Volume
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 125f91a134ea96e4c99fae6cf8f80e16, type: 2}
+--- !u!114 &5352306024452860469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893338326934653579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2c1b1bb5b3e22f498bc31e06c22d1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AntiAliasingSetup
+  antiAliasingMode: 2
+  taaJitterSpread: 0.75
+  taaStationaryBlending: 0.95
+  taaMotionBlending: 0.85
+  taaSharpness: 0.8
+  smaaQuality: 2
+--- !u!114 &5337013229148531218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893338326934653579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b36aae71e93834ba17ebff20f6420f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EyeAdaptation
+  computeShader: {fileID: 7200000, guid: 07d98780ef15fba4fa39cfc1e040ebb0, type: 3}
+  adaptationSpeedToBright: 3
+  adaptationSpeedToDark: 2
+  targetLuminance: 0.3
+  minExposure: -4
+  maxExposure: 4
+  aperture: 1.8
+  shutterSpeed: 0.033333335
+  iso: 3200
+  samplingResolution: 256
+  centerWeight: 2
+  showDebug: 0
+  testMode: 0

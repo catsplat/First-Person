@@ -1,0 +1,82 @@
+#pragma kernel CSLuminance
+#pragma kernel CSReduction
+
+// Textures
+Texture2D<float4> _SourceTex;
+RWTexture2D<float4> _LuminanceTex;
+RWStructuredBuffer<float4> _AverageLuminance;
+
+// Parameters
+float4 _WeightedParams; // x: centerWeight, y: width, z: height, w: sampleCount
+float _DeltaTime;
+
+// Physical camera params
+float _Aperture;      // f-stop value
+float _ShutterSpeed;  // in seconds
+float _ISO;
+
+[numthreads(8,8,1)]
+void CSLuminance (uint3 id : SV_DispatchThreadID)
+{
+    uint width, height;
+    _SourceTex.GetDimensions(width, height);
+    
+    if (id.x >= width || id.y >= height)
+        return;
+
+    // Sample source texture
+    float4 color = _SourceTex[id.xy];
+    
+    // Convert to luminance (human perception weights)
+    float luminance = dot(color.rgb, float3(0.2126, 0.7152, 0.0722));
+    
+    // Center weighting
+    float2 uv = float2(id.x / (float)width, id.y / (float)height);
+    float2 center = float2(0.5, 0.5);
+    float distFromCenter = length(uv - center);
+    float weight = lerp(_WeightedParams.x, 1.0, saturate(distFromCenter * 2.0));
+    
+    // Apply physical camera exposure
+    float ev = log2((_Aperture * _Aperture) / _ShutterSpeed) - log2(_ISO / 100.0);
+    luminance *= pow(2.0, -ev);
+    
+    // Store weighted luminance
+    _LuminanceTex[id.xy] = float4(luminance * weight, 0, 0, 1);
+}
+
+[numthreads(8,8,1)]
+void CSReduction(uint3 id : SV_DispatchThreadID)
+{
+    uint width, height;
+    _LuminanceTex.GetDimensions(width, height);
+    
+    if (id.x >= width || id.y >= height)
+        return;
+        
+    float sum = 0;
+    float weightSum = 0;
+    
+    // Sample 3x3 neighborhood
+    for (int y = -1; y <= 1; y++)
+    {
+        for (int x = -1; x <= 1; x++)
+        {
+            int2 samplePos = id.xy + int2(x, y);
+            if (samplePos.x >= 0 && samplePos.x < width && 
+                samplePos.y >= 0 && samplePos.y < height)
+            {
+                float sample = _LuminanceTex[samplePos].r;
+                sum += sample;
+                weightSum += 1.0;
+            }
+        }
+    }
+    
+    // Average and temporal blend
+    float currentAverage = sum / weightSum;
+    float previousAverage = _AverageLuminance[0].x;
+    float adaptedLuminance = lerp(previousAverage, currentAverage, _DeltaTime);
+    
+    // Store result
+    _AverageLuminance[0] = float4(adaptedLuminance, currentAverage, 0, 1);
+}

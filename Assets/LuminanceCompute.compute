@@ -1,0 +1,32 @@
+#pragma kernel CSMain
+
+Texture2D<float4> _SourceTex;
+RWStructuredBuffer<float> _LuminanceBuffer;
+
+float _CenterWeight;
+uint2 _ScreenSize;
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // Skip if outside texture bounds
+    if (id.x >= _ScreenSize.x || id.y >= _ScreenSize.y)
+        return;
+
+    // Get color at this pixel
+    float4 color = _SourceTex[id.xy];
+    
+    // Calculate luminance using perception-based weights, with increased sensitivity
+    float luminance = dot(color.rgb, float3(0.2126, 0.7152, 0.0722));
+    luminance = pow(luminance, 0.5); // Make darker areas more visible
+
+    // Apply stronger center weighting (more like a camera focus)
+    float2 uv = id.xy / _ScreenSize;
+    float2 center = float2(0.5, 0.5);
+    float distFromCenter = length(uv - center);
+    float weight = lerp(_CenterWeight * 2.0, 0.5, saturate(distFromCenter * 1.5)); // Stronger center bias
+
+    // Store weighted luminance
+    uint index = id.y * uint(_ScreenSize.x) + id.x;
+    _LuminanceBuffer[index] = luminance * weight;
+}

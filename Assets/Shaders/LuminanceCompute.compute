@@ -1,0 +1,38 @@
+# pragma kernel CSMain
+
+// The screen texture
+Texture2D<float4> _MainTex;
+// Where we'll store our computed luminance
+RWStructuredBuffer<float> _LuminanceBuffer;
+
+// Settings
+float _CenterWeight;
+float2 _ScreenSize;
+
+// Convert RGB to luminance
+float GetLuminance(float3 color)
+{
+    return dot(color, float3(0.2126, 0.7152, 0.0722));
+}
+
+[numthreads(8,8,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // Skip if outside texture bounds
+    if (id.x >= _ScreenSize.x || id.y >= _ScreenSize.y)
+        return;
+
+    // Get color at this pixel
+    float4 color = _MainTex[id.xy];
+    float luminance = GetLuminance(color.rgb);
+
+    // Apply center weighting
+    float2 uv = id.xy / _ScreenSize;
+    float2 center = float2(0.5, 0.5);
+    float distFromCenter = length(uv - center);
+    float weight = lerp(1.0, _CenterWeight, saturate(distFromCenter * 2.0));
+
+    // Store weighted luminance
+    uint index = id.y * uint(_ScreenSize.x) + id.x;
+    _LuminanceBuffer[index] = luminance * weight;
+}
