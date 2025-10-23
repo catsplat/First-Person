@@ -110,23 +110,55 @@ public class gamemanager : MonoBehaviour
         
         if (playerTransform != null)
         {
-            // Always use initial position if in a different scene from checkpoint
+            // Get respawn transform data
             Vector3 respawnPosition = useCheckpoint ? 
                 currentCheckpoint.position : initialPosition;
             
             Quaternion respawnRotation = useCheckpoint ?
                 currentCheckpoint.rotation : initialRotation;
 
-            // Reset position and rotation
-            playerTransform.position = respawnPosition;
-            playerTransform.rotation = respawnRotation;
-            
-            // Reset velocity if player has a rigidbody
+            // Add small vertical offset to prevent ground clipping
+            respawnPosition += Vector3.up * 0.1f;
+
+            // Reset all physics components
             var rb = playerTransform.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
+                rb.Sleep(); // Ensure physics system fully resets
+            }
+
+            // Reset player character controller if present
+            var cc = playerTransform.GetComponent<CharacterController>();
+            if (cc != null)
+            {
+                cc.enabled = false; // Temporarily disable to allow teleport
+            }
+
+            // Reset position and rotation
+            playerTransform.position = respawnPosition;
+            playerTransform.rotation = respawnRotation;
+
+            // Reset camera
+            var playerCamera = playerTransform.GetComponentInChildren<Camera>();
+            if (playerCamera != null)
+            {
+                playerCamera.transform.localRotation = Quaternion.identity;
+            }
+
+            // Re-enable character controller
+            if (cc != null)
+            {
+                cc.enabled = true;
+            }
+
+            // Reset any player movement script
+            var movement = playerTransform.GetComponent<StarterAssets.FirstPersonController>();
+            if (movement != null)
+            {
+                movement.enabled = false;
+                movement.enabled = true; // Reset the controller's internal state
             }
         }
     }
