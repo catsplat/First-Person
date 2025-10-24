@@ -31,3 +31,5 @@ This is a Unity-based 3D pizza delivery game where the player must deliver all p
 3. When the player delivers a pizza, the target disappears and UI updates.  
 4. Game ends when all pizzas are delivered (win) or the timer runs out (fail).  
 5. Success/Fail screens allow retrying or returning to the main menu.
+
+This project is © 2025 Thom Kelly — play and submit improvements by issue or PR. Redistribution or claiming authorship is prohibited. See LICENSE.md.
