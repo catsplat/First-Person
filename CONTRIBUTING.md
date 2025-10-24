@@ -84,7 +84,7 @@ Thanks again for helping — every improvement is welcome. I’ll credit contrib
 
 ⸻
 
-Optional: PULL_REQUEST_TEMPLATE.md
+### Pull request template
 
 ## Summary
 <!-- Short description of the change -->
@@ -98,7 +98,7 @@ Optional: PULL_REQUEST_TEMPLATE.md
 ## Additional notes
 <!-- Anything else the reviewer should know -->
 
-Optional: ISSUE_TEMPLATE.md
+### Issue template
 
 ## Describe the bug / feature request
 <!-- Clear, short description -->
