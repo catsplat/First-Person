@@ -86,32 +86,32 @@ Thanks again for helping — every improvement is welcome. I’ll credit contrib
 
 ### Pull request template
 
-## Summary
+# Summary
 <!-- Short description of the change -->
 
-## Related issue
+# Related issue
 <!-- Link to issue, if any -->
 
-## What I tested
+# What I tested
 <!-- Steps you used to test the change, Unity version, platform, etc. -->
 
-## Additional notes
+# Additional notes
 <!-- Anything else the reviewer should know -->
 
 ### Issue template
 
-## Describe the bug / feature request
+# Describe the bug / feature request
 <!-- Clear, short description -->
 
-## Reproduction steps
+# Reproduction steps
 1. 
 2. 
 3. 
 
-## Expected behaviour
+# Expected behaviour
 <!-- What you expected to happen -->
 
-## System info
+# System info
 - Unity version:
 - OS / Platform:
 - Any error messages / logs (paste or attach):
