@@ -1,4 +1,5 @@
-##Contributing##
+Contributing
+
 Thanks for wanting to help — I appreciate it! This document explains how to download, edit and submit changes so I can review and merge them.
 
 ## Quick summary
