@@ -3,6 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class Navigation : MonoBehaviour
 {
+
+    // Go to main menu scene
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("main menu");
+    }
+
+    // Reload current scene
+    public void RetryGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     public void LoadTutorial()
     {
         SceneManager.LoadScene("Tutorial"); // Replace with your tutorial scene name

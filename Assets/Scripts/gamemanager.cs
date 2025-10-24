@@ -31,6 +31,8 @@ public class gamemanager : MonoBehaviour
     private List<Checkpoint> allCheckpoints = new List<Checkpoint>();
     private AudioSource audioSource;
 
+
+
     void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -55,7 +57,8 @@ public class gamemanager : MonoBehaviour
         }
 
         // Find all checkpoints in the scene
-        allCheckpoints.AddRange(FindObjectsOfType<Checkpoint>());
+        allCheckpoints.Add(FindFirstObjectByType<Checkpoint>());
+
     }
 
     void Start()

@@ -28,7 +28,7 @@ public class Checkpoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             // Get the game manager and set this as active checkpoint
-            var gameManager = FindObjectOfType<gamemanager>();
+            var gameManager = FindFirstObjectByType<gamemanager>();
             if (gameManager != null)
             {
                 gameManager.SetCheckpoint(transform);
